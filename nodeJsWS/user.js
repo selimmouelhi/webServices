@@ -5,24 +5,26 @@ const body_parcer = require('body-parser')
 const mysql = require('mysql')
 const mssql = require('mssql')
 const app = express()
+const router = express.Router()
 
+
+const pool = mysql.createPool({
+    host: "localhost",
+    user: "root",
+    database: "espritlaunch",
+    port: '3306',
+    password: "root"
+})
 
 //middleware for script
 app.use(body_parcer.json())
 
-app.use(function (req, res, next) {
-    //Enabling CORS 
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, contentType,Content-Type, Accept, Authorization");
-    next();
-});
 
 
 //intializing server
-var server = app.listen(3003, function(){
+var server = app.listen(3004, function(){
 
-    console.log("app is listening on port 3003")
+    console.log("app is listening on port 3004")
 
 
 })
@@ -70,7 +72,7 @@ var executeQuery = function(res,query){
 
 //insertion user
 
-app.get("/web_services/:name&:prenom&:date&:email",function(req,res){
+app.post("/web_services/insert",function(req,res){
 
 
 const connection = mysql.createConnection({
@@ -84,10 +86,16 @@ const connection = mysql.createConnection({
 
   })
   
-  c
     
-  var queryString = "INSERT INTO user (nom,prenom,datenaissance,mail) VALUES (' " + req.params.nom + " ',' " + req.params.prenom + " ',' " + req.params.date + "',' " + req.params.email + " ')";
-  connection.query(queryString,[req.params.id],(err,rows,fields)=>{
+    
+  connection.query("INSERT INTO user(id, nom, prenom, datenaissance, mail,image_url) VALUES (?, ?, ?, ?, ?, ?)", [
+    req.body.id,
+    req.body.nom,
+    req.body.prenom,
+    req.body.datenaissance,
+    req.body.mail,
+    req.body.image_url
+    ], (err, rows, fields) => {
       
     if(err){
         console.log("error while fteching query")
@@ -103,3 +111,109 @@ const connection = mysql.createConnection({
 })
 })
 
+//creating user with router
+
+/*router.post("/web_services/insert", (req, res) => {
+    
+    pool.query("INSERT INTO user(id, nom, prenom, datenaissance, mail,image_url) VALUES (?, ?, ?, ?, ?, ?)", [
+        req.body.id,
+        req.body.nom,
+        req.body.prenom,
+        req.body.datenaissance,
+        req.body.mail,
+        req.body.image_url
+        ], (err, rows, fields) => {
+            if(err){
+                console.log(err)
+                res.sendStatus(500)
+                return
+            }
+            console.log("t3adina")
+            res.status(200)
+            res.json(res.body)
+        })
+})
+*/
+
+
+//check user , if he doesn't exist add him 
+
+app.post("/web_services/check",function(req,res){
+
+
+    const connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        password: 'root', 
+        database:'espritlaunch',
+        port: '3306'
+    
+        
+    
+      })
+      
+        connection.query("SELECT * FROM user WHERE id = ?", [req.body.id], (err, rows, fields) => { 
+            if(!err){
+                console.log(rows.length)
+                if(rows.length == 0){
+                    connection.query("INSERT INTO user(id, nom, prenom, mail,image_url) VALUES (?, ?, ?, ?, ?)", [
+                        req.body.id,
+                        req.body.nom,
+                        req.body.prenom,
+                        req.body.mail,
+                        req.body.image_url
+                        ], (err, rows, fields) => {
+                          
+                        if(err){
+                            console.log("error while fteching query")
+                            res.send(err)
+                        }
+                        else{
+                            console.log("done")
+                        }
+                        
+                })
+            }
+       
+                else{
+                    
+                                res.status(200)
+                                res.json(rows[0])
+    
+    
+                        }
+                    
+                }
+                
+            
+            else{
+                
+              
+            }
+        })
+    })
+
+        
+     /* connection.query("INSERT INTO user(id, nom, prenom, datenaissance, mail,image_url) VALUES (?, ?, ?, ?, ?, ?)", [
+        req.body.id,
+        req.body.nom,
+        req.body.prenom,
+        req.body.datenaissance,
+        req.body.mail,
+        req.body.image_url
+        ], (err, rows, fields) => {
+          
+        if(err){
+            console.log("error while fteching query")
+            res.send(err)
+        }
+        else{
+            res.send(req.params.nom)
+            console.log("done")
+        }
+        
+      
+    
+    })
+    })*/
+module.exports = router
