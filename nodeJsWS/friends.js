@@ -37,7 +37,7 @@ var dbConfig = {
 
 //getting friends List
 
-app.get("/web_services/friends",function(req,res){
+app.get("/web_services/friends/:id",function(req,res){
 
 
     const connection = mysql.createConnection({
@@ -53,9 +53,15 @@ app.get("/web_services/friends",function(req,res){
       
       
         
-      var queryString = "SELECT * FROM user WHERE id in (SELECT id_friend FROM friends)"
       
-      connection.query(queryString,[req.params.id],(err,rows,fields)=>{
+
+      
+      
+      connection.query( "SELECT * FROM user INNER JOIN friends ON user.id=friends.id_user And friends.id_user=?",
+        [   
+          req.params.id
+    
+        ],(err,rows,fields)=>{
           
         if(err){
             console.log("error while fteching query")
