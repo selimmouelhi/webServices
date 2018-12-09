@@ -164,30 +164,41 @@ app.post("/web_services/check",function(req,res){
                         req.body.image_url
                         ], (err, rows, fields) => {
                           
-                        if(err){
-                            console.log("error while fteching query")
-                            res.send(err)
+                        if(!err){
+                            pool.query("SELECT * FROM user WHERE id = ?", [req.body.id], (err, rows, fields) => {
+                                if(!err){
+                                    res.status(200)
+                                    res.json(rows[0])
+                                }
+                                else{
+                                    res.status(500)
+                                res.json("Error getting user after insert")
+
+                                }
+                            })
                         }
                         else{
-                            console.log("done")
+                            res.status(500)
+                            res.json("Error getting user after insert")
                         }
                         
                 })
             }
        
                 else{
-                    
-                                res.status(200)
-                                res.json(rows[0])
-    
+                   res.json(rows[0])
+            }
+
     
                         }
                     
-                }
+                
                 
             
             else{
-                
+                res.status(500)
+            res.json("error in selecting user")
+
               
             }
         })
