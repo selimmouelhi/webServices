@@ -8,13 +8,6 @@ const app = express()
 //middleware for script
 app.use(body_parcer.json())
 
-app.use(function (req, res, next) {
-    //Enabling CORS 
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, contentType,Content-Type, Accept, Authorization");
-    next();
-});
 
 
 //intializing server
@@ -57,7 +50,7 @@ app.get("/web_services/friends/:id",function(req,res){
 
       
       
-      connection.query( "SELECT * FROM user INNER JOIN friends ON user.id=friends.id_user And friends.id_user=?",
+      connection.query( "SELECT user.id,user.nom,user.prenom,user.mail,user.phone,user.image_url FROM user INNER JOIN friends ON user.id=friends.id_friend And friends.id_user=?",
         [   
           req.params.id
     
@@ -77,7 +70,7 @@ app.get("/web_services/friends/:id",function(req,res){
     })
     })
 
-    app.post("/web_services/addfriend",function(req,res){
+    app.post("/web_services/addfriend/:id_user/:id_friend",function(req,res){
 
 
         const connection = mysql.createConnection({
@@ -94,8 +87,8 @@ app.get("/web_services/friends/:id",function(req,res){
           
             
           connection.query("INSERT INTO friends(id_friend, id_user) VALUES (?, ?)", [
-            req.body.id_friend,
-            req.body.id_user
+            req.params.id_user,
+            req.params.id_friend
             ], (err, rows, fields) => {
               
             if(err){
@@ -116,7 +109,7 @@ app.get("/web_services/friends/:id",function(req,res){
 
         //delete user by id 
 
-        app.delete("/web_services/deletefriend",function(req,res){
+        app.delete("/web_services/deletefriend/:id_user/:id_friend",function(req,res){
 
 
             const connection = mysql.createConnection({
@@ -133,8 +126,8 @@ app.get("/web_services/friends/:id",function(req,res){
               
                 
               connection.query("DELETE FROM friends WHERE id_user=? AND  id_friend=?", [
-                req.body.id_user,
-                req.body.id_friend
+                req.params.id_user,
+                req.params.id_friend
                 ], (err, rows, fields) => {
                   
                 if(err){
@@ -142,6 +135,9 @@ app.get("/web_services/friends/:id",function(req,res){
                     res.send(err)
                 }
                 else{
+                    console.log(req.params.id_user)
+                    console.log(req.params.id_friend)
+
                     res.send(req.params.nom)
                     console.log("done")
                 }
