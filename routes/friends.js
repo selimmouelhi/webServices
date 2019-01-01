@@ -76,6 +76,8 @@ router.get("/getfriends/:id",function(req,res){
                 res.send(err)
             }
             else{
+                pool.query("UPDATE user SET friends = friends+1 WHERE id = ?", [req.params.id_user])
+                pool.query("UPDATE user SET friends = friends+1 WHERE id = ?", [req.params.id_friend])
                 res.send(req.params.nom)
                 console.log("done")
             }

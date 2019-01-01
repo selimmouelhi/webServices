@@ -12,10 +12,15 @@ const userRoute = require("./routes/user")
 const restaurantRoute = require("./routes/restaurant.js")
 const friendRoute = require("./routes/friends.js")
 const cafeRoute = require('./routes/cafe.js')
+const followerRoute = require('./routes/follower.js')
+
+
 
 app.use("/users", userRoute)
 app.use("/restaurants", restaurantRoute)
 app.use("/friends", friendRoute)
+app.use("/followers", followerRoute)
+
 //app.use('/cafes', cafeRoute)
 
 app.listen(3003, () => {
