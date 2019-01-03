@@ -174,5 +174,14 @@ router.post("/check",function(req,res){
     // get list abonnements 
 
 
+
+    //get user by id
+
+    router.get("/:id", (req, res) => {
+        pool.query("SELECT * FROM user WHERE id = ?", [req.params.id], (err, rows, fields) => {
+            res.status(200)
+            res.json(rows[0])
+        })
+    })
     
 module.exports = router

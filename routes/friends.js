@@ -37,7 +37,7 @@ router.get("/getfriends/:id",function(req,res){
 
       
       
-      pool.query( "SELECT user.id,user.nom,user.prenom,user.mail,user.phone,user.image_url FROM user INNER JOIN friends ON user.id=friends.id_friend And friends.id_user=?",
+      pool.query( "SELECT user.* FROM user INNER JOIN friends ON user.id=friends.id_friend And friends.id_user=?",
         [   
           req.params.id
     
@@ -215,5 +215,19 @@ router.get("/getfriends/:id",function(req,res){
     //SELECT * FROM user INNER JOIN friends ON user.id=friends.id_user And friends.id_user="f_2308446465863370"
 
 
+
+    // check user friends or not
+
+router.get("/is_friend/:id1/:id2", (req, res) => {
+    pool.query("SELECT f.* FROM friends f JOIN user u ON f.id_user = u.id WHERE f.id_user = ? AND f.id_friend = ?", [req.params.id1, req.params.id2], (err, rows) => {
+        if (err) {
+            console.log(err)
+            res.sendStatus(500)
+            return
+        }
+        res.status(200)
+        res.send(rows.length > 0 ? true : false)
+    })
+})
     module.exports = router
 

@@ -91,7 +91,7 @@ router.get("/mosttasty",function(req,res){
 
     //getting all topraded Restaurants
 
-app.get("/alltopratedRestaurants",function(req,res){
+router.get("/alltopratedRestaurants",function(req,res){
 
 
     const connection = mysql.createConnection({
@@ -109,7 +109,7 @@ app.get("/alltopratedRestaurants",function(req,res){
         
       var queryString = "SELECT * FROM restaurant ORDER BY rating DESC "
       
-      connection.query(queryString,[req.params.id],(err,rows,fields)=>{
+      pool.query(queryString,[req.params.id],(err,rows,fields)=>{
           
         if(err){
             console.log("error while fteching query")

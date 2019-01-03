@@ -93,5 +93,17 @@ router.get("/follower_list/:id", (req, res) => {
     })
 })
 
+// check user following or not
 
+router.get("/is_following/:id1/:id2", (req, res) => {
+    pool.query("SELECT f.* FROM following f JOIN user u ON f.follower_id = u.id WHERE f.follower_id = ? AND f.followed_id = ?", [req.params.id1, req.params.id2], (err, rows) => {
+        if (err) {
+            console.log(err)
+            res.sendStatus(500)
+            return
+        }
+        res.status(200)
+        res.send(rows.length > 0 ? true : false)
+    })
+})
 module.exports = router
