@@ -3,6 +3,8 @@ const body_parcer = require('body-parser')
 const mysql = require('mysql')
 const mssql = require('mssql')
 const app = express()
+const notificationUtil = require("../utils/NotificationHelper")
+const notificationType = require("../models/notificationT")
 const router = express.Router()
 
 
@@ -26,17 +28,22 @@ function getConnection(){
 router.post("/follow/:follower_id/:followed_id", (req, res) => {
     pool.query("INSERT INTO following(follower_id, followed_id) VALUES(?,?)", [req.params.follower_id, req.params.followed_id], (err, rows, fields) => {
         if (!err) {
-           /* pool.query("SELECT * FROM user WHERE id = ?", [req.params.follower_id], (usErr, usRows) => {
+           pool.query("SELECT * FROM user WHERE id = ?", [req.params.follower_id], (usErr, usRows) => {
                 if (!usErr) {
                     const notifUser = usRows[0]
-                    pool.query("SELECT * FROM devices WHERE user_id = ?", [req.params.followed_id], (devErr, devRows) => {
+                    pool.query("SELECT * FROM devices WHERE id_user = ?", [req.params.followed_id], (devErr, devRows) => {
                         devRows.forEach(device => {
-                            notificationUtil.notify(notificationType.getKey("follower"), req.params.follower_id, device.token, notifUser.username + " is following you",
-                                notifUser.username + " just started following you, click here to check his profile!")
+                            if(device.device_type == "ios"){
+                                notificationUtil.notifyIos(notificationType.getKey("follower"), req.params.follower_id, "", device.token, notifUser.prenom+" "+notifUser.nom+" is following you", 
+                                notifUser.prenom+" "+notifUser.nom+" just started following you. Click here to check their profile!")
+                            }else{
+                                notificationUtil.notifyAndroid(notificationType.getKey("follower"), req.params.follower_id, "", device.token, notifUser.prenom+" "+notifUser.nom+" is following you", 
+                                notifUser.prenom+" "+notifUser.nom+" just started following you. Click here to check their profile!")
+                            }
                         });
-                    })
+                    })  
                 }
-            })*/
+            })
             pool.query("UPDATE user SET following = following+1 WHERE id = ?", [req.params.follower_id])
             pool.query("UPDATE user SET followers = followers+1 WHERE id = ?", [req.params.followed_id])
             res.status(204)

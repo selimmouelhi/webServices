@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "esprit4launch-1541532517720",
+  "private_key_id": "d6faa0d81ecbcfacc59e21092a29587e523cbb04",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDPj7o1NUk4MZ3W\nK3/NBMQdm8G7HPhsvcBzVL7BV6I6SLUBopECbV8DhgDykjA8R5dsbHwKVoBwHIcN\nTXK2/iTPV3h1fYvNGE1IzV5Q4GU43X6ChEAVguizUA7zKpdsgqC7QDM5fUalCzQy\nwFCOdeRL4aa8kq1nioxJ5osMrPUE/v97YlrGkSCH7TbwsGoMcHl4GJwGHn/Bkqy2\nMmYXum+ikZOMvWoDYdxxEzLwsYdKuQw+1lV9CFWVJEx15OuMlo5RZ+AsJyaTbRqF\n4tn7stTe2zKRTAZvTDfiXi2cqNxN9SmahRtc/ecDpOUkCatOGMlpFR/JXTH+meK0\nn3xFc13HAgMBAAECggEAJ9Xr5P5fGRvcsRgUJSL/CLe2DNVYkHYyk2/2VGEfT5RY\nuQGcVxzqmWCEmgmYnFkZJMQFYm6Lo/i1qsXseFZ6dhjRk6sOw8QgQRK5QUhv5OQN\nvbroGbjQNGnvFJheC4NemdGOg0AZ6N8nm33xeAYEVNPwDk0QXsjmd+B5W2tucxCt\nFR6poeadwZW8NELr7gw/fo7TeaLsecq1Jlg3JsFCkYN88pbuXrzFbWyAYYIfC7Uv\nZzPkhb20PVshUfN5jPY5ml+22CUt9KJqHdAPiAW19337rBS1Y7+hGgJ65TCrUJe9\n+bXEMpDA1N4jwly89Z0hMNeKMMw5qgCo8KvJdS6GEQKBgQDzwZ//Iu6UGfPh4pgS\nJxFVDj2xCi9UHuhisD+chPlBE5GhUVB/ojPUCxdMJw7CxFxSynFh0iZAVOukm8KC\n+GtAVMayYooHkN3A/vAY1MoTYowqdXW9ngzZ31ct7nooP6igv6rUOsndbgUYhu/h\nrjpu/nSTftnO+/Yot6kBf3SCSwKBgQDZ/K9fqFoO42FhjUdGAZ40hEROGANmJ/QH\nfPxSpruecZF19ISgqvTg1AOEe4LC8NgpwS4gXsIhEyHD4GMPTTkiF/UMkwbKtjAf\nhDekc9vklyKOmZxe3udsy6KPA066iwqUTe8KMKJxwkJI62iwitzKPIh4QcDDEmLc\n2Jj5rMyE9QKBgQC6AmiwzpxXAhL8reiz+YIdcPec0RPa0pctMCfqrgJzKZa5Do8q\nRsHcLvaBU1DNSgDV4MxzBGXSM7t6aq4dOarGdasG13FTYrYGH8VifYcTEeG6SNYn\nc6OE4wzo7RHlAucQfBLFT3NZ+SoEVHxbsJPAvYaCQ4u8isOGwNhEX1muTwKBgAdx\np5N+rkSf4y1vo6VyXLKyaZq5GzSb3Kt8yykPZIzOmAcNKJJMBDzBQLV/ekGp89fJ\nLwgP9FUo0BheS0O0gWT2qHmbc7nsasxIuZW2FyZBOv7fpAVhW0nN0mlL1Z5tLRlP\naABTFNkJpzXSRCrzMwL8+jQRGsIOmK2t/9tW2U0ZAoGAB3wE0/l0JLul5+yiNMbo\nIf1x6SRlzL75xT8xXCw1tq3pgbUgm69+n9hj/9HVl1xxldog5h2s1aY6audXKLVN\nm7ZEVRO0YTNr3l0HW7Ey4lavYJCb8lxPDuMLieQXlI6CbFzYI1osuPBVlSD4CSF7\n0YqzKQ6zaP3HrcP9TTBhD4A=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-322qo@esprit4launch-1541532517720.iam.gserviceaccount.com",
+  "client_id": "107226188715756108560",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-322qo%40esprit4launch-1541532517720.iam.gserviceaccount.com"
+}

@@ -3,6 +3,8 @@ const body_parcer = require('body-parser')
 const mysql = require('mysql')
 const mssql = require('mssql')
 const app = express()
+const notificationUtil = require("../utils/NotificationHelper")
+const notificationType = require("../models/notificationT")
 
 const router = express.Router()
 
@@ -57,9 +59,46 @@ router.get("/getfriends/:id",function(req,res){
     })
     })
 
-    //add friend
 
-    router.post("/addfriend/:id_user/:id_friend",function(req,res){
+    //request friendship 
+
+    router.post("/requestfriend/:id_user/:id_friend",function(req,res){
+
+
+        
+          
+          
+            
+       
+          
+              pool.query("SELECT * FROM user WHERE id = ?", [req.params.id_user], (usErr, usRows) => {
+                  if (!usErr) {
+                      const notifUser = usRows[0]
+                      pool.query("SELECT * FROM devices WHERE id_user = ?", [req.params.id_friend], (devErr, devRows) => {
+                          devRows.forEach(device => {
+                              if(device.device_type == "ios"){
+                                  notificationUtil.notifyIos(notificationType.getKey("friend"), req.params.id_friend, "", device.token, notifUser.prenom+" "+notifUser.nom+" added you", 
+                                  notifUser.prenom+" "+notifUser.nom+" just added you. Click here to check their profile!")
+                              }else{
+                                  notificationUtil.notifyAndroid(notificationType.getKey("friend"), req.params.id_friend, "", device.token, notifUser.prenom+" "+notifUser.nom+" added you", 
+                                  notifUser.prenom+" "+notifUser.nom+" just added you. Click here to check their profile!")
+                              }
+                          });
+                      })  
+                  }
+              })
+              
+              res.send(req.params.nom)
+              console.log("done")
+          
+          
+        
+  
+      })
+
+    //add friend accept notification
+
+    router.post("/addfriendnotif/:id_user/:id_friend",function(req,res){
 
 
         
@@ -76,8 +115,23 @@ router.get("/getfriends/:id",function(req,res){
                 res.send(err)
             }
             else{
+                pool.query("SELECT * FROM user WHERE id = ?", [req.params.follower_id], (usErr, usRows) => {
+                    if (!usErr) {
+                        const notifUser = usRows[0]
+                        pool.query("SELECT * FROM devices WHERE id_user = ?", [req.params.followed_id], (devErr, devRows) => {
+                            devRows.forEach(device => {
+                                if(device.device_type == "ios"){
+                                    notificationUtil.notifyIos(notificationType.getKey("friend"), req.params.follower_id, "", device.token, notifUser.prenom+" "+notifUser.nom+" added you", 
+                                    notifUser.prenom+" "+notifUser.nom+" just added you. Click here to check their profile!")
+                                }else{
+                                    notificationUtil.notifyAndroid(notificationType.getKey("friend"), req.params.follower_id, "", device.token, notifUser.prenom+" "+notifUser.nom+" added you", 
+                                    notifUser.prenom+" "+notifUser.nom+" just added you. Click here to check their profile!")
+                                }
+                            });
+                        })  
+                    }
+                })
                 pool.query("UPDATE user SET friends = friends+1 WHERE id = ?", [req.params.id_user])
-                pool.query("UPDATE user SET friends = friends+1 WHERE id = ?", [req.params.id_friend])
                 res.send(req.params.nom)
                 console.log("done")
             }
@@ -86,7 +140,32 @@ router.get("/getfriends/:id",function(req,res){
         
         })
         })
+        router.post("/addfriend/:id_user/:id_friend",function(req,res){
 
+
+        
+          
+          
+            
+            pool.query("INSERT INTO friends(id_friend, id_user) VALUES (?, ?)", [
+              req.params.id_user,
+              req.params.id_friend
+              ], (err, rows, fields) => {
+                
+              if(err){
+                  console.log("error while fteching query")
+                  res.send(err)
+              }
+              else{
+                  pool.query("UPDATE user SET friends = friends+1 WHERE id = ?", [req.params.id_user])
+                  res.send(req.params.nom)
+                  console.log("done")
+              }
+              
+            
+          
+          })
+          })
 
 
         //delete user by id 
